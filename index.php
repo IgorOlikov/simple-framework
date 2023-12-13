@@ -1,5 +1,13 @@
 <?php
 
+require_once __DIR__. '/vendor/autoload.php';
 
 
-$app = new Application;
+use app\core\Application;
+
+
+
+$app = new Application();
+
+
+var_dump( $app->router);
