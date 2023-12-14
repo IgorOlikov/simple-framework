@@ -10,6 +10,10 @@ class Application
     public Router $router;
     public Request $request;
     public Response $response;
+    public Controller $controller;
+
+
+
 
     public static Application $app;
 
@@ -25,6 +29,23 @@ class Application
         {
           echo  $this->router->resolve();
         }
+
+
+    /**
+     * @return Controller
+     */
+    public function getController(): Controller
+    {
+        return $this->controller;
+    }
+
+    /**
+     * @param Controller $controller
+     */
+    public function setController(Controller $controller): void
+    {
+        $this->controller = $controller;
+    }
 
 
 
