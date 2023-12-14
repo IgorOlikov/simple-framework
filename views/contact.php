@@ -1,5 +1,1 @@
-<?php
-
-?>
-
-<h1>Contact</h1>
+<h1>Contact US</h1>
