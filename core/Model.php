@@ -4,17 +4,12 @@ namespace app\core;
 
 abstract class Model
 {
-
     public const RULE_REQUIRED = 'required';
     public const RULE_EMAIL = 'email';
     public const RULE_MIN = 'min';
     public const RULE_MAX = 'max';
     public const RULE_MATCH = 'match';
-
     public const RULE_UNIQUE = 'unique';
-
-
-
     public function loadData($data)
     {
         foreach ($data as $key => $value ){
@@ -22,14 +17,17 @@ abstract class Model
                 $this->{$key} = $value;
             }
         }
-
-
     }
-
     abstract public function rules(): array;
-
+    public function lables(): array
+    {
+        return [];
+    }
+    public function getLabel($attribute)
+    {
+        return $this->lables()[$attribute] ?? $attribute;
+    }
     public array $errors = [];
-
     public function validate()
     {
         foreach ($this->rules() as $attribute => $rules){
@@ -52,6 +50,7 @@ abstract class Model
                     $this->addError($attribute, self::RULE_MAX, $rule);
                 }
                 if ($ruleName === self::RULE_MATCH && $value !== $this->{$rule['match']}){
+                    $rule['match'] = $this->getLabel($rule['match']);
                     $this->addError($attribute, self::RULE_MATCH, $rule);
                 }
                 if ($ruleName === self::RULE_UNIQUE){
@@ -63,7 +62,7 @@ abstract class Model
                     $statement->execute();
                     $record = $statement->fetchObject();
                     if ($record){
-                        $this->addError($attribute, self::RULE_UNIQUE, ['field' => $attribute]);
+                        $this->addError($attribute, self::RULE_UNIQUE, ['field' => $this->getLabel($attribute)]);
                     }
                 }
             }
