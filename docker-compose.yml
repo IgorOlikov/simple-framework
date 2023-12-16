@@ -9,6 +9,8 @@ services:
         - ./:/app
       ports:
         - "80:80"
+      depends_on:
+        - postgresql
 
     php-fpm:
       build:
@@ -18,10 +20,12 @@ services:
         - ./:/app
        ## - ./docker/php-configuration:/usr/local/etc/php
       environment:
-        DB_HOST: postgresql
-        DB_USER: app
-        DB_PASSWORD: password
-        DB_NAME: app
+        POSTGRES_HOST: postgresql
+        POSTGRES_USER: app
+        POSTGRES_DB: app
+        POSTGRES_PASSWORD: password
+      depends_on:
+        - nginx
 
     php-cli:
       build:
@@ -31,18 +35,18 @@ services:
         - ./:/app
         ##- ./docker/php-configuration:/usr/local/etc/php
       environment:
-        DB_HOST: postgresql
-        DB_USER:  app
-        DB_PASSWORD:  password
-        DB_NAME: app
+        POSTGRES_HOST: postgresql
+        POSTGRES_USER: app
+        POSTGRES_DB: app
+        POSTGRES_PASSWORD: password
 
     postgresql:
       image: postgres:16-alpine3.18
       environment:
-        DB_HOST: postgresql
-        DB_USER: app
-        DB_PASSWORD: password
-        DB_NAME: app
+        POSTGRES_HOST: postgresql
+        POSTGRES_USER: app
+        POSTGRES_DB: app
+        POSTGRES_PASSWORD: password
       volumes:
         - ./docker/postgresql:/var/lib/postgresql/data
       ports:
