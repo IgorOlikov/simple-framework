@@ -19,9 +19,10 @@ class User extends DbModel
     }
 
 
-    public function register()
+    public function save()
     {
-        return $this->save();
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+        return parent::save();
 
     }
 
