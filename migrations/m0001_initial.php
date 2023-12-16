@@ -14,7 +14,7 @@ class m0001_initial
         email varchar(255) NOT NULL ,
         firstname varchar(255) NOT NULL ,
         lastname varchar(255) NOT NULL ,
-        status int NOT NULL ,
+        status int default NULL,
         created_at timestamp default current_timestamp
         )";
        $db->pdo->exec($SQL);
